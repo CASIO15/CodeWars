@@ -14,6 +14,7 @@ for i in string:
         raw_bin = bin(ord(i)).replace('b', '')
         final_bin = raw_bin.zfill(len(raw_bin) + 3)
         final_special.append(final_bin[:3])
+
         for i in final_bin[3:]:
             for x in i:
                 final_special.append(x*3)
