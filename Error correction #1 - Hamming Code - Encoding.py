@@ -1,10 +1,10 @@
 from string import punctuation
 
 def encoding_(sting):
+    
     str_lst = []
     changed_special = []
     final_special = []
-
 
     for i in string:
 
