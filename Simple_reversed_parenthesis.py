@@ -20,11 +20,9 @@ def solve(string):
     for i in res:
         if i != '':
             if i == ')(':
-            
                 final += 2
 
             elif i == '))' or i == '((':
-            
                 final += 1
 
     return final
