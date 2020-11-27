@@ -1,7 +1,6 @@
 from functools import reduce
 
-# Using dict to solve, very efficient, especially using dict keys as hash lookup us fast
-
+# Using dict to solve, using dict keys hash lookup.
 def prime_gen(n):
     for i in range(2, n**2):
         for j in range(2, i):
