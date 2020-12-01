@@ -1,0 +1,54 @@
+import socket
+import re
+import hashlib
+
+addr = '134.209.29.219'
+port = 30077
+
+def start_connection():
+    client = socket.socket()
+    client.connect((addr, port))
+    return client
+
+def GET_req():
+
+    client = start_connection()
+    GET = 'GET / HTTP/1.1\r\nHost: {0}:{1}\r\n\r\n'.format(addr, port)
+
+    client.send(GET.encode())
+    print('[+] Sending GET')
+
+    DATA = client.recv(4096).decode()
+    client.close()
+
+    extract_data(DATA)
+
+def POST_req(key, cookie):
+
+    # Apache/2.4.18 (Ubuntu), Mozilla/5.0 (X11; Linux x86_64)
+
+    client = start_connection()
+
+    POST = 'POST / HTTP/1.1\r\nHOST: {0}:{1}\r\nContet-Type: {2}\r\nUser-Agent: {3}\r\n' \
+           'Content-Length: {4}\r\nCookie: {5}\r\n\r\nhash={6}'.format(addr, port, 'application/x-www-form-urlencoded',
+                                                                       'Apache/2.4.18 (Ubuntu)',
+                                                                       len('hash=' + str(len(key))),
+                                                                       cookie, key)
+    client.send(POST.encode())
+    print('[+] Sending POST')
+
+    print(client.recv(4096).decode())
+    client.close()
+
+def extract_data(data):
+
+    cookie = re.findall('PHPSESSID=[a-z0-9]+', data)[0].split('=')[-1]
+    hash_raw = re.findall('>[A-Za-z0-9]+', data)[-1].strip('>')
+
+    md5 = hashlib.md5()
+    md5.update(hash_raw.encode())
+    key = md5.hexdigest()
+
+    POST_req(key, cookie)
+
+GET_req()
