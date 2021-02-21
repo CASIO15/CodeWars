@@ -10,7 +10,7 @@ penguins = ['Adam', 'Brian', 'Flipper', 'Franko', 'Darwin']
 def calculate_winners(snapshot, penguins):
 
 	lanes = []
-	speeds = []
+	remaining_distance = []
 
 
 	for i in snapshot.lower().strip().strip(' ').split('\n'):
@@ -27,10 +27,10 @@ def calculate_winners(snapshot, penguins):
 			if i == '~':
 				length += 2
 
-		speeds.append(length)
+		remaining_distance.append(length)
 
 
-	sorted_res = sorted([*zip(speeds, penguins)], key=lambda x: x[0])
+	sorted_res = sorted([*zip(remaining_distance, penguins)], key=lambda x: x[0])
 	return "GOLD: {}, SILVER: {}, BRONZE: {}".format(sorted_res[0][1], sorted_res[1][1], sorted_res[2][1])
 
 
